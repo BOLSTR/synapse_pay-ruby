@@ -1,6 +1,6 @@
 module SynapsePay
   class UserEndpoint < APIEndpoint
-    
+
     def retrieve(params={}, headers={})
       method = APIMethod.new(:post, "/user/show", params, headers, self)
       json = @client.execute(method)
@@ -22,5 +22,10 @@ module SynapsePay
       User.new(json[:user], method, @client)
     end
 
+    def add_doc(params={}, headers={})
+      method = APIMethod.new(:post, "/user/doc/add", params, headers, self)
+      json = @client.execute(method)
+      User.new(json[:user], method, @client)
+    end
   end
 end
