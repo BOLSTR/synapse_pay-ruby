@@ -31,7 +31,6 @@ module SynapsePay
      params = ParamsBuilder.merge({
         :bank_id => id,
       }, params)
-      ap params
       method = APIMethod.new(:post, "/bank/setprimary", params, headers, self)
       json = @client.execute(method)
       json
