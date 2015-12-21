@@ -27,6 +27,7 @@ module SynapsePay
       json
     end
 
+
     # Everything below here is used behind the scenes.
     APIResource.register_api_subclass(self, "bank")
     @api_attributes = {
