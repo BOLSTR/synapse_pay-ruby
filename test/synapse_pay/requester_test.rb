@@ -5,48 +5,6 @@ module SynapsePay
     setup do
     end
 
-    context '#prepare_params' do
-      setup do
-        @url = "test_url"
-        @params = { :a => 1, :b => [2, 3] }
-      end
-
-      should 'convert :get params to a query string' do
-        url, params = Requester.prepare_params(@url, @params, :get)
-        assert(url != @url)
-        assert(params.nil?)
-      end
-
-      should 'convert :delete params to a query string' do
-        url, params = Requester.prepare_params(@url, @params, :delete)
-        assert(url != @url)
-        assert(params.nil?)
-      end
-
-      should 'convert :head params to a query string' do
-        url, params = Requester.prepare_params(@url, @params, :head)
-        assert(url != @url)
-        assert(params.nil?)
-      end
-
-      context 'method = :post' do
-        setup do
-          @method = :post
-        end
-
-        should 'not convert params to a query string if a file is in them' do
-          expected = { file: File.new(__FILE__) }
-          url, params = Requester.prepare_params(@url, expected, @method)
-          assert_equal(expected, params)
-        end
-
-        should 'convert params to a query string if a file is not present' do
-          url, params = Requester.prepare_params(@url, @params, @method)
-          assert(params.is_a?(String))
-        end
-      end
-    end
-
     context '#query_string' do
       should 'join #query_array results with an "&"' do
         start = { :a => 1, :b => [2, 3] }
