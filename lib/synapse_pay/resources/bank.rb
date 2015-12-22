@@ -26,6 +26,15 @@ module SynapsePay
       json = @client.execute(method)
       json
     end
+    
+    def set_primary(params={}, headers={})
+     params = ParamsBuilder.merge({
+        :bank_id => id,
+      }, params)
+      method = APIMethod.new(:post, "/bank/setprimary", params, headers, self)
+      json = @client.execute(method)
+      json
+    end
 
     # Everything below here is used behind the scenes.
     APIResource.register_api_subclass(self, "bank")

@@ -12,10 +12,6 @@ module SynapsePay
     end
 
     context '#new / #initialize' do
-      should 'set the api_key' do
-        assert_equal(SynapsePay.api_key, @api_method.api_key)
-      end
-
       should 'set the api_base' do
         assert_equal(SynapsePay.api_base, @api_method.api_base)
       end
@@ -31,22 +27,16 @@ module SynapsePay
       end
 
       should 'use HeadersBuilder with headers, api_key, and nil auth_header' do
-        HeadersBuilder.expects(:build).with(@headers, SynapsePay.api_key, nil).returns(@headers)
+        HeadersBuilder.expects(:build).with(@headers, SynapsePay.client_id, nil).returns(@headers)
         APIMethod.new(@method, @path, @params, @headers, @object)
       end
 
-      should 'verify the api key exists' do
-        SynapsePay.api_key = nil
-        assert_raises(AuthenticationError) do
-          APIMethod.new(@method, @path, @params, @headers, @object)
-        end
-      end
     end
 
     context '#execute' do
       setup do
         @mock_response = mock
-        @mock_response.stubs(:body).returns('{"status": "success"}')
+        @mock_response.stubs(:body).returns('{"success": true}')
         @mock_response.stubs(:code).returns(200)
       end
 
@@ -63,7 +53,7 @@ module SynapsePay
 
       should 'return the response parsed as json' do
         Requester.expects(:request).returns(@mock_response)
-        assert_equal({:status => "success"}, @api_method.execute)
+        assert_equal({:success => true}, @api_method.execute)
       end
 
       should 'return an AuthenticationError if the status is 401' do
